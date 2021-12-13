@@ -1,5 +1,6 @@
 import { Dispatch, RefObject, SetStateAction } from "react";
 import { Song } from "../types/Song";
+import { playSong } from "../util";
 
 type LibrarySongProps = {
   song: Song;
@@ -21,15 +22,6 @@ export default function LibrarySong({
   const setCurrentSongHandler = () => {
     setCurrentSong(song);
 
-    if (isSongPlaying) {
-      const playPromise = audioRef.current?.play();
-      if (playPromise !== undefined) {
-        playPromise.then(() => {
-          audioRef.current?.play();
-        });
-      }
-    }
-
     const newSongs = songs.map((s) => {
       if (s.id === song.id) {
         return {
@@ -45,6 +37,8 @@ export default function LibrarySong({
     });
 
     setSongs(newSongs);
+
+    playSong(isSongPlaying, audioRef);
   };
 
   return (

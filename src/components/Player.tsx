@@ -1,4 +1,10 @@
-import React, { Dispatch, SetStateAction, useState, RefObject } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useState,
+  RefObject,
+  useEffect,
+} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlay,
@@ -7,11 +13,13 @@ import {
   faAngleRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { Song } from "../types/Song";
+import { playSong } from "../util";
 
 type PlayerPorps = {
   currentSong: Song;
   setCurrentSong: Dispatch<SetStateAction<Song>>;
   songs: Song[];
+  setSongs: Dispatch<SetStateAction<Song[]>>;
   isSongPlaying: boolean;
   setIsSongPlaying: Dispatch<SetStateAction<boolean>>;
   audioRef: RefObject<HTMLAudioElement>;
@@ -21,10 +29,29 @@ export default function Player({
   currentSong,
   setCurrentSong,
   songs,
+  setSongs,
   isSongPlaying,
   setIsSongPlaying,
   audioRef,
 }: PlayerPorps) {
+  useEffect(() => {
+    const newSongs = songs.map((s) => {
+      if (s.id === currentSong.id) {
+        return {
+          ...s,
+          active: true,
+        };
+      } else {
+        return {
+          ...s,
+          active: false,
+        };
+      }
+    });
+
+    setSongs(newSongs);
+  }, [currentSong]);
+
   const [songInfo, setSongInfo] = useState({
     duration: 0,
     currentTime: 0,
@@ -52,6 +79,8 @@ export default function Player({
         }
         break;
     }
+
+    playSong(isSongPlaying, audioRef);
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,7 +121,7 @@ export default function Player({
           value={songInfo.currentTime}
           type="range"
         />
-        <p>{formatTime(songInfo.duration)}</p>
+        <p>{songInfo.duration ? formatTime(songInfo.duration) : "0:00"}</p>
       </div>
 
       <div className="play-control">
