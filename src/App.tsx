@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 //Import css
 import "./styles/app.scss";
@@ -15,6 +15,7 @@ function App() {
   const [songs, setSongs] = useState(data());
   const [currentSong, setCorrentSong] = useState(songs[0]);
   const [isSongPlaying, setIsSongPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   return (
     <div className="App">
@@ -23,8 +24,16 @@ function App() {
         currentSong={currentSong}
         isSongPlaying={isSongPlaying}
         setIsSongPlaying={setIsSongPlaying}
+        audioRef={audioRef}
       />
-      <Library songs={songs} />
+      <Library
+        songs={songs}
+        setSongs={setSongs}
+        currentSong={currentSong}
+        setCurrentSong={setCorrentSong}
+        audioRef={audioRef}
+        isSongPlaying={isSongPlaying}
+      />
     </div>
   );
 }

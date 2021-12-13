@@ -1,4 +1,4 @@
-import React, { useRef, Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useState, RefObject } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlay,
@@ -12,19 +12,19 @@ type PlayerPorps = {
   currentSong: Song;
   isSongPlaying: boolean;
   setIsSongPlaying: Dispatch<SetStateAction<boolean>>;
+  audioRef: RefObject<HTMLAudioElement>;
 };
 
 export default function Player({
   currentSong,
   isSongPlaying,
   setIsSongPlaying,
+  audioRef,
 }: PlayerPorps) {
   const [songInfo, setSongInfo] = useState({
     duration: 0,
     currentTime: 0,
   });
-
-  const audioRef = useRef<HTMLAudioElement>(null);
 
   const formatTime = (time: number) => {
     const formatedTime =
@@ -66,7 +66,7 @@ export default function Player({
         <input
           onChange={handleInputChange}
           min={0}
-          max={songInfo.duration}
+          max={songInfo.duration || 0}
           value={songInfo.currentTime}
           type="range"
         />
