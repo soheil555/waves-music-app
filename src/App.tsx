@@ -14,7 +14,7 @@ import Library from "./components/Library";
 
 function App() {
   const [songs, setSongs] = useState(data());
-  const [currentSong, setCorrentSong] = useState(songs[0]);
+  const [currentSong, setCurrentSong] = useState(songs[0]);
   const [isSongPlaying, setIsSongPlaying] = useState(false);
   const [isLibraryActive, setIsLibraryActive] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -28,6 +28,8 @@ function App() {
       <Song currentSong={currentSong} />
       <Player
         currentSong={currentSong}
+        setCurrentSong={setCurrentSong}
+        songs={songs}
         isSongPlaying={isSongPlaying}
         setIsSongPlaying={setIsSongPlaying}
         audioRef={audioRef}
@@ -36,7 +38,7 @@ function App() {
         songs={songs}
         setSongs={setSongs}
         currentSong={currentSong}
-        setCurrentSong={setCorrentSong}
+        setCurrentSong={setCurrentSong}
         audioRef={audioRef}
         isSongPlaying={isSongPlaying}
         isLibraryActive={isLibraryActive}
