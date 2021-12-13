@@ -12,8 +12,9 @@ html {
 
 h1,
 h2,
-h3 {
+h3,
+h4 {
   color: rgb(54, 53, 53);
 }
 
-@import "./player", "./song";
+@import "./player", "./song", "./library";
