@@ -1,9 +1,15 @@
-export default function Song() {
+import { Song as SongType } from "../types/Song";
+
+type SongProps = {
+  currentSong: SongType;
+};
+
+export default function Song({ currentSong }: SongProps) {
   return (
     <div className="song-container">
-      <h1>Song Image</h1>
-      <h1>Song name</h1>
-      <h1>Artist name</h1>
+      <img src={currentSong.cover} />
+      <h2>{currentSong.name}</h2>
+      <h3>{currentSong.artist}</h3>
     </div>
   );
 }

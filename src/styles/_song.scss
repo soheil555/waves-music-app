@@ -4,4 +4,16 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  h2 {
+    padding: 2rem 1rem 1rem 1rem;
+  }
+  h3 {
+    font-weight: lighter;
+  }
+
+  img {
+    width: 20%;
+    border-radius: 50%;
+  }
 }
