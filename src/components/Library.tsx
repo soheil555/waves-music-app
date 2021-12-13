@@ -9,6 +9,7 @@ type LibraryProps = {
   setCurrentSong: Dispatch<SetStateAction<Song>>;
   audioRef: RefObject<HTMLAudioElement>;
   isSongPlaying: boolean;
+  isLibraryActive: boolean;
 };
 
 export default function Library({
@@ -18,9 +19,12 @@ export default function Library({
   setCurrentSong,
   audioRef,
   isSongPlaying,
+  isLibraryActive,
 }: LibraryProps) {
   return (
-    <div className="library-container">
+    <div
+      className={`library-container ${isLibraryActive ? "active-library" : ""}`}
+    >
       <h1>Library</h1>
       <div className="library-songs">
         {songs.map((song, i) => (

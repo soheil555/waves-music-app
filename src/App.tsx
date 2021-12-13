@@ -7,6 +7,7 @@ import "./styles/app.scss";
 import data from "./data";
 
 //Import components
+import Nav from "./components/Nav";
 import Song from "./components/Song";
 import Player from "./components/Player";
 import Library from "./components/Library";
@@ -15,10 +16,15 @@ function App() {
   const [songs, setSongs] = useState(data());
   const [currentSong, setCorrentSong] = useState(songs[0]);
   const [isSongPlaying, setIsSongPlaying] = useState(false);
+  const [isLibraryActive, setIsLibraryActive] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   return (
     <div className="App">
+      <Nav
+        isLibraryActive={isLibraryActive}
+        setIsLibraryActive={setIsLibraryActive}
+      />
       <Song currentSong={currentSong} />
       <Player
         currentSong={currentSong}
@@ -33,6 +39,7 @@ function App() {
         setCurrentSong={setCorrentSong}
         audioRef={audioRef}
         isSongPlaying={isSongPlaying}
+        isLibraryActive={isLibraryActive}
       />
     </div>
   );

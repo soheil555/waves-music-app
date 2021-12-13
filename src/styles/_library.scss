@@ -7,6 +7,9 @@
   overflow: scroll;
   background-color: white;
   box-shadow: 2px 2px 50px rgb(170, 170, 170);
+  transition: all 0.5s ease;
+  transform: translateX(-100%);
+  opacity: 0;
 
   h1 {
     margin: 2rem;
@@ -59,4 +62,9 @@
 
 .active-song {
   background-color: #fee3ec;
+}
+
+.active-library {
+  transform: translateX(0);
+  opacity: 1;
 }

@@ -1,0 +1,23 @@
+.nav-container {
+  min-height: 10vh;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    border: 2px solid rgb(68, 67, 67);
+    padding: 0.5rem;
+    transition: all 0.3s ease;
+    color: rgb(68, 67, 67);
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      background: rgb(68, 67, 67);
+      color: white;
+    }
+  }
+}
