@@ -1,10 +1,4 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useState,
-  RefObject,
-  useEffect,
-} from "react";
+import React, { Dispatch, SetStateAction, useState, RefObject } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlay,
@@ -33,9 +27,21 @@ export default function Player({
   setIsSongPlaying,
   audioRef,
 }: PlayerPorps) {
-  useEffect(() => {
-    const newSongs = songs.map((s) => {
-      if (s.id === currentSong.id) {
+  const [songInfo, setSongInfo] = useState({
+    duration: 0,
+    currentTime: 0,
+    percentagePlayed: 0,
+  });
+
+  const formatTime = (time: number) => {
+    const formatedTime =
+      Math.floor(time / 60) + ":" + ("0" + Math.floor(time % 60)).slice(-2);
+    return formatedTime;
+  };
+
+  const setLibraryActive = (songId: number) => {
+    const newSongs = songs.map((s, i) => {
+      if (i === songId) {
         return {
           ...s,
           active: true,
@@ -49,37 +55,30 @@ export default function Player({
     });
 
     setSongs(newSongs);
-  }, [currentSong]);
-
-  const [songInfo, setSongInfo] = useState({
-    duration: 0,
-    currentTime: 0,
-    percentagePlayed: 0,
-  });
-
-  const formatTime = (time: number) => {
-    const formatedTime =
-      Math.floor(time / 60) + ":" + ("0" + Math.floor(time % 60)).slice(-2);
-    return formatedTime;
   };
 
   const handleSkipSong = async (direction: string) => {
     const currentIndex = songs.findIndex((s) => s.id === currentSong.id);
 
+    let nextId: number = 0;
     switch (direction) {
       case "forward":
-        await setCurrentSong(songs[(currentIndex + 1) % songs.length]);
+        nextId = (currentIndex + 1) % songs.length;
+        await setCurrentSong(songs[nextId]);
         break;
 
       case "backward":
         if (currentIndex === 0) {
-          await setCurrentSong(songs[songs.length - 1]);
+          nextId = songs.length - 1;
+          await setCurrentSong(songs[nextId]);
         } else {
-          await setCurrentSong(songs[currentIndex - 1]);
+          nextId = currentIndex - 1;
+          await setCurrentSong(songs[nextId]);
         }
         break;
     }
 
+    setLibraryActive(nextId);
     setSongInfo({ ...songInfo, percentagePlayed: 0 });
 
     if (isSongPlaying) audioRef.current?.play();
