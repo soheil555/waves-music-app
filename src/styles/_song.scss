@@ -4,6 +4,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
 
   h2 {
     padding: 2rem 1rem 1rem 1rem;
@@ -15,5 +16,21 @@
   img {
     width: 20%;
     border-radius: 50%;
+  }
+}
+
+@media only screen and (max-width: 780px) {
+  .song-container {
+    img {
+      width: 60%;
+    }
+  }
+}
+
+@media only screen and (min-width: 780px) and (max-width: 1400px) {
+  .song-container {
+    img {
+      width: 30%;
+    }
   }
 }

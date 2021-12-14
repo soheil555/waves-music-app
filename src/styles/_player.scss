@@ -1,8 +1,8 @@
 .player-container {
-  min-height: 10vh;
+  min-height: 13vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
 
   .time-control {
@@ -45,6 +45,13 @@ input[type="range"]::-webkit-slider-thumb {
   width: 16px;
 }
 
+input[type="range"]::-moz-range-thumb {
+  background: transparent;
+  border: none;
+  width: 16px;
+  height: 16px;
+}
+
 input[type="range"]:focus {
   outline: none;
 }
@@ -66,4 +73,18 @@ input[type="range"]:focus {
   left: 0;
   transform: translateX(0%);
   pointer-events: none;
+}
+
+@media only screen and (max-width: 780px) {
+  .player-container {
+    min-height: 20vh;
+
+    .time-control {
+      width: 90%;
+    }
+
+    .play-control {
+      width: 60%;
+    }
+  }
 }

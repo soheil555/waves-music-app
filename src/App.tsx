@@ -20,12 +20,12 @@ function App() {
   const audioRef = useRef<HTMLAudioElement>(null);
 
   return (
-    <div className="App">
+    <div className={`App ${isLibraryActive ? "library-active" : ""}`}>
       <Nav
         isLibraryActive={isLibraryActive}
         setIsLibraryActive={setIsLibraryActive}
       />
-      <Song currentSong={currentSong} />
+      <Song setIsLibraryActive={setIsLibraryActive} currentSong={currentSong} />
       <Player
         currentSong={currentSong}
         setCurrentSong={setCurrentSong}
