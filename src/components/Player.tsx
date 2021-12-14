@@ -55,6 +55,7 @@ export default function Player({
   const [songInfo, setSongInfo] = useState({
     duration: 0,
     currentTime: 0,
+    percentagePlayed: 0,
   });
 
   const formatTime = (time: number) => {
@@ -93,10 +94,17 @@ export default function Player({
   const handleTimeChange = (event: React.MouseEvent<HTMLAudioElement>) => {
     const target = event.target as HTMLAudioElement;
 
+    const currentTimeRounded = Math.round(target.currentTime);
+    const durationRounded = Math.round(target.duration);
+    const percentagePlayed = Math.round(
+      (currentTimeRounded / durationRounded) * 100
+    );
+
     setSongInfo({
       ...songInfo,
       currentTime: target.currentTime,
       duration: target.duration,
+      percentagePlayed,
     });
   };
 
@@ -110,17 +118,31 @@ export default function Player({
     setIsSongPlaying(!isSongPlaying);
   };
 
+  const trackAnimationStyle = {
+    transform: `translateX(${songInfo.percentagePlayed}%)`,
+  };
+
+  const trackBackGroundStyle = {
+    background: `linear-gradient(to right ,${currentSong.color[0]},${currentSong.color[1]})`,
+  };
+
   return (
     <div className="player-container">
       <div className="time-control">
         <p>{formatTime(songInfo.currentTime)}</p>
-        <input
-          onChange={handleInputChange}
-          min={0}
-          max={songInfo.duration || 0}
-          value={songInfo.currentTime}
-          type="range"
-        />
+
+        <div style={trackBackGroundStyle} className="track">
+          <input
+            onChange={handleInputChange}
+            min={0}
+            max={songInfo.duration || 0}
+            value={songInfo.currentTime}
+            type="range"
+          />
+
+          <div style={trackAnimationStyle} className="track-animation"></div>
+        </div>
+
         <p>{songInfo.duration ? formatTime(songInfo.duration) : "0:00"}</p>
       </div>
 
