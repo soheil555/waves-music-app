@@ -1,6 +1,5 @@
 import { Dispatch, RefObject, SetStateAction } from "react";
 import { Song } from "../types/Song";
-import { playSong } from "../util";
 
 type LibrarySongProps = {
   song: Song;
@@ -19,8 +18,8 @@ export default function LibrarySong({
   isSongPlaying,
   setSongs,
 }: LibrarySongProps) {
-  const setCurrentSongHandler = () => {
-    setCurrentSong(song);
+  const setCurrentSongHandler = async () => {
+    await setCurrentSong(song);
 
     const newSongs = songs.map((s) => {
       if (s.id === song.id) {
@@ -38,7 +37,7 @@ export default function LibrarySong({
 
     setSongs(newSongs);
 
-    playSong(isSongPlaying, audioRef);
+    if (isSongPlaying) audioRef.current?.play();
   };
 
   return (

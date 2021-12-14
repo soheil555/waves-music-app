@@ -13,7 +13,6 @@ import {
   faAngleRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { Song } from "../types/Song";
-import { playSong } from "../util";
 
 type PlayerPorps = {
   currentSong: Song;
@@ -64,24 +63,26 @@ export default function Player({
     return formatedTime;
   };
 
-  const handleSkipSong = (direction: string) => {
+  const handleSkipSong = async (direction: string) => {
     const currentIndex = songs.findIndex((s) => s.id === currentSong.id);
 
     switch (direction) {
       case "forward":
-        setCurrentSong(songs[(currentIndex + 1) % songs.length]);
+        await setCurrentSong(songs[(currentIndex + 1) % songs.length]);
         break;
 
       case "backward":
         if (currentIndex === 0) {
-          setCurrentSong(songs[songs.length - 1]);
+          await setCurrentSong(songs[songs.length - 1]);
         } else {
-          setCurrentSong(songs[currentIndex - 1]);
+          await setCurrentSong(songs[currentIndex - 1]);
         }
         break;
     }
 
-    playSong(isSongPlaying, audioRef);
+    setSongInfo({ ...songInfo, percentagePlayed: 0 });
+
+    if (isSongPlaying) audioRef.current?.play();
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,6 +117,15 @@ export default function Player({
     }
 
     setIsSongPlaying(!isSongPlaying);
+  };
+
+  const handleOnEnded = async () => {
+    const currentIndex = songs.findIndex((s) => s.id === currentSong.id);
+    await setCurrentSong(songs[(currentIndex + 1) % songs.length]);
+
+    setSongInfo({ ...songInfo, percentagePlayed: 0 });
+
+    if (isSongPlaying) audioRef.current?.play();
   };
 
   const trackAnimationStyle = {
@@ -174,6 +184,7 @@ export default function Player({
       <audio
         onTimeUpdate={handleTimeChange}
         onLoadedMetadata={handleTimeChange}
+        onEnded={handleOnEnded}
         ref={audioRef}
         src={currentSong.audio}
       ></audio>
